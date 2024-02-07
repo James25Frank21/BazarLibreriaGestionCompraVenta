@@ -33,7 +33,7 @@ public class selCompra extends javax.swing.JFrame {
         proDAO = new ProductoDAO();
         dtm = (DefaultTableModel)this.tblCompra.getModel();
         llenaTblProductos(false, "");
-        
+        llenarCosto();
         
     }
     
@@ -86,7 +86,7 @@ public class selCompra extends javax.swing.JFrame {
         }
         return sw;
     }
-    private void llenarCosto(){
+    public void llenarCosto(){
         String costo = util.obtenerSuma();
         txtTotalCompra.setText(costo);
     }

@@ -28,16 +28,14 @@ public class selVenta extends javax.swing.JFrame {
     Producto pp;
     DetVentaDAO detVDAO;
     DefaultTableModel dtm;
-    Util util;
     int idVen;
+    Util util; 
     public selVenta() {
         initComponents();
         detVDAO = new DetVentaDAO();
-        venta = new DetVenta();
         dtm = (DefaultTableModel)this.tblVenta.getModel();
-        llenaTblVentas(false, "");
-        
-        
+        llenaTblVentas(false, "");      
+        llenarCostoV();      
     }
     private void llenaTblVentas(boolean sw, String Cod){
         Vector<DetVenta> LisT;
@@ -92,11 +90,12 @@ public class selVenta extends javax.swing.JFrame {
         return sw;
     }
     
-    private void llenarCostoVenta(){
-        String costoVenta = util.obtenerSumaVenta();
-        System.out.println("sale el costo");
+    public void llenarCostoV(){
+        Util util = new Util();
+        String costoVenta = util.obtenerSumaV();
         txtTotalVenta.setText(costoVenta);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -352,34 +351,37 @@ public class selVenta extends javax.swing.JFrame {
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
         if(valida()== true){
+            DetVenta venta;
             Util util = new Util();
             String fechaHoy = util.obtenerFecha();
+            venta = new DetVenta();
+            
             venta.setIdProducto(Integer.parseInt(this.txtProductoId.getText()));
             venta.setDescripcion(this.txtDescripcion.getText());
             venta.setPrecioVenta(Double.parseDouble(this.txtPrecioV.getText()));
             venta.setCantidad(Integer.parseInt(this.txtCantidad.getText()));
-            //venta.setCostoTotal(Double.parseDouble(this.txtImporte.getText()));
+            venta.setCostoTotal(Double.parseDouble(this.txtProductoId.getText()));
             venta.setFecha(fechaHoy);
 
             if(this.btnRegistrar.getText().equals("REGISTRAR")){
 
-                this.idVen = util.idNext("DetVenta", "IdVenta");
+                this.idVen = util.idNext("DetVenta", "IdDetaVenta");
                 venta.setIdVenta(idVen);
                 this.detVDAO.procesaItem(venta, "insert");
 
             }else{
                 venta.setIdVenta(idVen);
                 this.detVDAO.procesaItem(venta, "update");
-            }
+            }          
             llenaTblVentas(false, "Tik");
             limpiar();
-            llenarCostoVenta();
+            llenarCostoV();
            
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        
+        limpiar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txtTotalVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalVentaActionPerformed

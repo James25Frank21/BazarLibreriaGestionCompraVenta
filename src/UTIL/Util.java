@@ -117,6 +117,7 @@ public class Util {
         }
         return sw;
     }
+    
     public String cadExp(String nombTbl, String campID, String nomCampBusq, String cad){
         String cade = "";
         DbBean con = new DbBean();
@@ -134,6 +135,7 @@ public class Util {
         
         return cade;
     }
+    
     public int idExp(String nombTbl, String campID, String nomCampBusq, String cad){
         int id = 0;
         DbBean con = new DbBean();
@@ -155,6 +157,7 @@ public class Util {
         }
         return id;
     }
+    
 
     public String obtenerFecha(){
           String fecha = "";
@@ -182,6 +185,7 @@ public class Util {
         }
           return fecha;
      }
+    
         public int numRows(String sql){
             String bigSQL= "";
             int nR = 0;
@@ -231,17 +235,17 @@ public class Util {
           return costo;
      }
         
-        public String obtenerSumaVenta(){
-          String costo = "";
+        public String obtenerSumaV(){
+          String ct = "";
           DbBean con=new DbBean();
           String sql="";
           
-          sql = "SELECT SUM(costoTotal) AS suma_costo_total FROM DetVenta";
+          sql = "Select SUM(costoTotal) AS suma_tVenta FROM DetVenta";
 
        try{
             ResultSet resultado=con.resultadoSQL(sql);
             resultado.next();
-            costo = resultado.getString(1);
+            ct = resultado.getString(1);
         }
         catch(java.sql.SQLException e)
         {
@@ -254,7 +258,7 @@ public class Util {
         catch(SQLException e){
             e.printStackTrace();
         }
-          return costo;
+          return ct;
      }
         
 

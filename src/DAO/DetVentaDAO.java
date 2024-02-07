@@ -12,14 +12,15 @@ public class DetVentaDAO {
     public DetVentaDAO() {
     }
     
-    public Vector<DetVenta> ListaItem(boolean sw, String str){
-        Vector<DetVenta> item = new Vector<DetVenta>();
+    public Vector<DetVenta> ListaItem(boolean sw, String cod){
+        System.out.println("salida de read");
         DbBean con = new DbBean();
-        String sql = "SELECT * FROM  detVenta";
+        Vector<DetVenta> item;
+        item = new Vector<DetVenta>();        
+        String sql = "SELECT * FROM  detVenta ";
         if(sw == true){
-            sql = sql + " WHERE (IdDetaVenta = '"+ str +"')";
+            sql = sql + " where descripcion like '"+ cod +"%'";
         }
-        System.out.println(sql);
         try{
             ResultSet resultado = con.resultadoSQL(sql);
 
@@ -39,7 +40,10 @@ public class DetVentaDAO {
         }
         try{
             con.desconecta();
-        }catch(SQLException e){}
+        }catch(java.sql.SQLException e){
+            e.printStackTrace();
+        }
+        
         return item;
     }
     
@@ -56,36 +60,49 @@ public class DetVentaDAO {
         }
         try{
             con.desconecta();
-        }catch(SQLException e){
+        }catch(java.sql.SQLException e){
+            e.printStackTrace();
         }
         
     }
     public int procesaItem(DetVenta dv, String proc){
        int resultado=0;
        String sql= "";
+       System.out.println("procesa");
        DbBean con=new DbBean();
-       System.out.println("ENTRE SUAVE");
        if(proc.equals("insert")){
+           System.out.println("se esta insertando: " + sql);
             double importe = dv.getCantidadv() * dv.getPrecioVenta();
             
-            sql="INSERT INTO detVenta VALUES ("+ dv.getIdProducto()+", '"+dv.getDescripcion()+"', "+ dv.getPrecioVenta()+", "+ dv.getCantidadv()+", "+ importe+", '"+dv.getFecha()+ "')";
-            System.out.println("EVallll: "+sql);
+            sql="INSERT INTO detVenta VALUES ("+ dv.getIdProducto()+", '"+
+                    dv.getDescripcion()+"', "+ dv.getPrecioVenta()+", "+ 
+                    dv.getCantidadv()+", "+ importe +", '"+dv.getFecha()+ "')";
+            
+            
        }
        if(proc.equals("update")){
             double importe = dv.getCantidadv() * dv.getPrecioVenta();
-            sql="UPDATE detVenta SET IdProducto  = "+ dv.getIdProducto() +", Descripcion = '"+dv.getDescripcion()+"', precioVenta = "+ dv.getPrecioVenta()+", cantidad = "+ dv.getCantidadv()+", costoTotal = " + importe +", fecha = '"+dv.getFecha()+ "' WHERE IdDetaVenta = "+ dv.getIdVenta() ;
+            sql="UPDATE detVenta SET IdProducto  = "+ dv.getIdProducto() +
+                    ", Descripcion = '"+dv.getDescripcion()+
+                    "', precioVenta = "+ dv.getPrecioVenta()+
+                    ", cantidad = "+ dv.getCantidadv()+
+                    ", costoTotal = " + importe +
+                    ", fecha = '"+dv.getFecha()+ 
+                    "' WHERE IdDetaVenta = "+ dv.getIdVenta()+ "" ;
        }
        System.out.println("Observando el estado de la sentencia sql: "+sql);
 
        try{
           resultado=con.ejecutaSQL(sql);
         }
-        catch(java.sql.SQLException e){e.printStackTrace();
+        catch(java.sql.SQLException e){
+            e.printStackTrace();
         }
         try{
         con.desconecta();
         }
-        catch(SQLException e){
+        catch(java.sql.SQLException e){
+            e.printStackTrace();
         }
           return resultado;
       } 
