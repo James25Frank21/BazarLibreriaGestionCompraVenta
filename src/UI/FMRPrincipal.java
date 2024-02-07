@@ -5,6 +5,10 @@
  */
 package UI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author James
@@ -16,6 +20,38 @@ public class FMRPrincipal extends javax.swing.JFrame {
      */
     public FMRPrincipal() {
         initComponents();
+        validarCredenciales();
+        
+       
+    }
+    
+    
+    
+     private void validarCredenciales(){
+        String usuario = "margarita";
+        String contraseña = "margarita123";
+        
+        String usuarioIngresado = txtUsuario.getText().trim().toString();
+        String contraseñaIngresada = txtContraseña.getText().trim().toString();
+        
+        if(usuario.equals(usuarioIngresado) && contraseña.equals(contraseñaIngresada)){
+            // Si las credenciales son correctas, mostrar mensaje de éxito y conceder acceso
+            
+            btnIngresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Redirigir al usuario a otra ventana después de iniciar sesión correctamente
+                selProducto compraFrame = new selProducto();
+                compraFrame.setVisible(true);
+                dispose(); // Cerrar el JFrame actual
+            }
+        });
+            JOptionPane.showMessageDialog(null, "¡Inicio de sesión exitoso!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+        } else if(usuario.equals(usuarioIngresado) || contraseña.equals(contraseñaIngresada)) {
+            // Si las credenciales son incorrectas, mostrar mensaje de error
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos. Por favor, inténtelo nuevamente.", "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**

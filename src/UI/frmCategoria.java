@@ -8,6 +8,8 @@ package UI;
 import BEAN.Categoria;
 import DAO.CategoriaDAO;
 import UTIL.Util;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -32,7 +34,20 @@ public class frmCategoria extends javax.swing.JFrame {
         dtm = (DefaultTableModel)this.tblCategoria.getModel();
         
         llenaTblCategoria(false, "");
-        
+     
+        btnRegresar.addActionListener(new ActionListener() {
+                @Override
+             public void actionPerformed(ActionEvent e) {
+                 // Crear una instancia del JFrame selCompra
+                 selProducto compraFrame = new selProducto();
+
+                 // Hacer visible el nuevo JFrame
+                 compraFrame.setVisible(true);
+
+                 // Cerrar el JFrame actual
+                 dispose(); // Opcional, cierra el JFrame actual si no lo necesitas más
+             }
+        });
     }
 
     frmCategoria(JFrame jFrame, boolean b) {

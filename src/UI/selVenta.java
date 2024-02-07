@@ -11,6 +11,8 @@ import BEAN.Producto;
 import DAO.DetVentaDAO;
 import DAO.ProductoDAO;
 import UTIL.Util;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -35,7 +37,21 @@ public class selVenta extends javax.swing.JFrame {
         detVDAO = new DetVentaDAO();
         dtm = (DefaultTableModel)this.tblVenta.getModel();
         llenaTblVentas(false, "");      
-        llenarCostoV();      
+        llenarCostoV();
+        
+        btnRegresar.addActionListener(new ActionListener() {
+                @Override
+             public void actionPerformed(ActionEvent e) {
+                 // Crear una instancia del JFrame selCompra
+                 selProducto compraFrame = new selProducto();
+
+                 // Hacer visible el nuevo JFrame
+                 compraFrame.setVisible(true);
+
+                 // Cerrar el JFrame actual
+                 dispose(); // Opcional, cierra el JFrame actual si no lo necesitas más
+             }
+        });
     }
     private void llenaTblVentas(boolean sw, String Cod){
         Vector<DetVenta> LisT;
